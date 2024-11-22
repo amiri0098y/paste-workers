@@ -1,0 +1,3 @@
+# Override for local testing
+AUTH_USER=user
+AUTH_PASS=pass

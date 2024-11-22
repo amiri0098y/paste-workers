@@ -16,7 +16,7 @@ enabled = true
 # Note: Use secrets to store sensitive data.
 # - https://developers.cloudflare.com/workers/configuration/secrets/
 [vars]
-MY_VARIABLE = "production_value"
+GH_REPO_URL = "https://github.com/brendanv/paste-workers"
 
 # Docs: https://developers.cloudflare.com/workers/wrangler/configuration/#kv-namespaces
 [[kv_namespaces]]
