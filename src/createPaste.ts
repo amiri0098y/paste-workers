@@ -96,9 +96,10 @@ const createPaste = async ({
 		throw new Error('Key already in use');
 	}
 
+	const expirationSeconds = expirationToSeconds(expiration);
 	await env.PASTE_KV.put(key, content, {
-		metadata: { visibility, title, createdAt: new Date().toISOString() },
-		expirationTtl: expirationToSeconds(expiration),
+		metadata: { visibility, title, createdAt: new Date().toISOString(), expirationSeconds },
+		expirationTtl: expirationSeconds,
 	});
 
 	return key;

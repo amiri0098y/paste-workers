@@ -6,22 +6,28 @@ type Args = {
 	githubRepoUrl: string;
 	title: string | null;
 	createdAt: string | null;
+	expirationSeconds: number | null;
 	paste: string;
 };
 
-const newPastePage = ({ domain, githubRepoUrl, title, createdAt, paste }: Args) => {
-	const escapedDomain = he.escape(domain);
-	const escapedGithubUrl = he.escape(githubRepoUrl);
-	const escapedTitle = he.escape(title || 'Untitled Paste');
-	const escapedCreatedAt = he.escape(createdAt || new Date().toISOString());
-	const escapedPaste = he.escape(paste);
+const newPastePage = ({ domain, githubRepoUrl, title, createdAt, expirationSeconds, paste }: Args) => {
+	const parsedCreatedAt = createdAt ? new Date(createdAt) : null;
+	const parsedExpiresAt = parsedCreatedAt && expirationSeconds ? new Date(parsedCreatedAt.getTime() + expirationSeconds * 1000) : null;
+
+	const metadataItems = [];
+	if (parsedCreatedAt) {
+		metadataItems.push(`Created: ${parsedCreatedAt.toLocaleString()}`);
+	}
+	if (parsedExpiresAt) {
+		metadataItems.push(`Expires: ${parsedExpiresAt.toLocaleString()}`);
+	}
 
 	return content
-		.replaceAll('{{DOMAIN}}', escapedDomain)
-		.replaceAll('{{GH_REPO_URL}}', escapedGithubUrl)
-		.replaceAll('{{TITLE}}', escapedTitle)
-		.replaceAll('{{CREATED_ISO}}', escapedCreatedAt)
-		.replaceAll('{{PASTE_CONTENT}}', escapedPaste);
+		.replaceAll('{{DOMAIN}}', he.escape(domain))
+		.replaceAll('{{GH_REPO_URL}}', he.escape(githubRepoUrl))
+		.replaceAll('{{TITLE}}', he.escape(title || 'Untitled Paste'))
+		.replaceAll('{{METADATA_ITEMS}}', he.escape(metadataItems.join(' • ')))
+		.replaceAll('{{PASTE_CONTENT}}', he.escape(paste));
 };
 
 export default newPastePage;

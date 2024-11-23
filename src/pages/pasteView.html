@@ -25,13 +25,6 @@
 				white-space: pre;
 				font-family: monospace;
 			}
-			.expiration-warning {
-				background: var(--mark-background-color);
-				color: var(--mark-color);
-				padding: 0.5rem 1rem;
-				border-radius: 0.5rem;
-				margin-bottom: 1rem;
-			}
 		</style>
 	</head>
 	<body>
@@ -44,26 +37,17 @@
 				</nav>
 				<hgroup>
 					<h1>{{TITLE}}</h1>
-					<div class="metadata">
-						Created: <time datetime="{{CREATED_ISO}}">{{CREATED_ISO}}</time>
-						<!-- {{#if expires_at}}
-						• Expires: <time datetime="{{expires_iso}}">{{expires_friendly}}</time>
-						{{/if}} -->
-					</div>
+					<div class="metadata">{{METADATA_ITEMS}}</div>
 				</hgroup>
 			</header>
-
-			<!-- {{#if near_expiration}}
-			<div class="expiration-warning">
-				This paste will expire in {{time_until_expiration}}
-			</div>
-			{{/if}} -->
 
 			<pre class="paste-content">{{PASTE_CONTENT}}</pre>
 
 			<div class="grid">
 				<button onclick="navigator.clipboard.writeText(window.location.href)">Copy Link</button>
-				<button onclick="navigator.clipboard.writeText(document.querySelector('.paste-content').textContent)" class="secondary">Copy Content</button>
+				<button onclick="navigator.clipboard.writeText(document.querySelector('.paste-content').textContent)" class="secondary">
+					Copy Content
+				</button>
 			</div>
 		</main>
 

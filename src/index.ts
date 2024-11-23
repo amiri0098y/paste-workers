@@ -56,7 +56,7 @@ export default {
 
 		if (url.pathname.startsWith('/p/')) {
 			const pasteId = url.pathname.substring(3);
-			const { value: paste, metadata } = await env.PASTE_KV.getWithMetadata(pasteId);
+			const { value: paste, metadata, ...rest } = await env.PASTE_KV.getWithMetadata(pasteId);
 			if (paste) {
 				if (metadata && metadata.visibility === 'authorized') {
 					if (authResponse) {
@@ -70,6 +70,7 @@ export default {
 						githubRepoUrl: env.GH_REPO_URL,
 						title: metadata?.title,
 						createdAt: metadata?.createdAt,
+						expirationSeconds: metadata?.expirationSeconds,
 						paste,
 					}),
 					{
