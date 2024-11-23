@@ -17,6 +17,8 @@ enabled = true
 # - https://developers.cloudflare.com/workers/configuration/secrets/
 [vars]
 GH_REPO_URL = "https://github.com/brendanv/paste-workers"
+DOMAIN = "paste.brendanviscomi.com" # No trailing slash
+BASE_URL = "https://paste.brendanviscomi.com/" # Expect trailing slash
 
 # Docs: https://developers.cloudflare.com/workers/wrangler/configuration/#kv-namespaces
 [[kv_namespaces]]

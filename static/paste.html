@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>{{TITLE}} - Paste</title>
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/picocss/1.5.10/pico.min.css" />
+		<style>
+			footer {
+				text-align: center;
+				margin-top: 2rem;
+				padding: 1rem;
+				border-top: 1px solid var(--muted-border-color);
+			}
+			.metadata {
+				color: var(--muted-color);
+				font-size: 0.875em;
+				margin-bottom: 2rem;
+			}
+			.paste-content {
+				background: var(--code-background-color);
+				padding: 1rem;
+				border-radius: 0.5rem;
+				overflow-x: auto;
+				white-space: pre;
+				font-family: monospace;
+			}
+			.expiration-warning {
+				background: var(--mark-background-color);
+				color: var(--mark-color);
+				padding: 0.5rem 1rem;
+				border-radius: 0.5rem;
+				margin-bottom: 1rem;
+			}
+		</style>
+	</head>
+	<body>
+		<main class="container">
+			<header>
+				<nav>
+					<ul>
+						<li><a href="/" class="secondary">← New Paste</a></li>
+					</ul>
+				</nav>
+				<hgroup>
+					<h1>{{TITLE}}</h1>
+					<div class="metadata">
+						Created: <time datetime="{{CREATED_ISO}}">{{CREATED_ISO}}</time>
+						<!-- {{#if expires_at}}
+						• Expires: <time datetime="{{expires_iso}}">{{expires_friendly}}</time>
+						{{/if}} -->
+					</div>
+				</hgroup>
+			</header>
+
+			<!-- {{#if near_expiration}}
+			<div class="expiration-warning">
+				This paste will expire in {{time_until_expiration}}
+			</div>
+			{{/if}} -->
+
+			<pre class="paste-content">{{PASTE_CONTENT}}</pre>
+
+			<div class="grid">
+				<button onclick="navigator.clipboard.writeText(window.location.href)">Copy Link</button>
+				<button onclick="navigator.clipboard.writeText(document.querySelector('.paste-content').textContent)" class="secondary">Copy Content</button>
+			</div>
+		</main>
+
+		<footer>
+			<small>
+				Open source on <a href="{{GH_REPO_URL}}" target="_blank">GitHub</a> • Made with
+				<a href="https://picocss.com">Pico CSS</a>
+			</small>
+		</footer>
+	</body>
+</html>
