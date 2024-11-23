@@ -1,7 +1,7 @@
 import requireAuth from './requireAuth';
 import createPaste, { validateExpiration, validateVisibility, validateCustomKey, ValidationError } from './createPaste';
 import newPastePage from './pages/newPaste';
-import pasteViewPage from './pages/pasteView';
+import handleViewPaste  from './handleViewPaste';
 
 export default {
 	async fetch(request, env): Promise<Response> {
@@ -55,31 +55,12 @@ export default {
 		}
 
 		if (url.pathname.startsWith('/p/')) {
-			const pasteId = url.pathname.substring(3);
-			const { value: paste, metadata, ...rest } = await env.PASTE_KV.getWithMetadata(pasteId);
-			if (paste) {
-				if (metadata && metadata.visibility === 'authorized') {
-					if (authResponse) {
-						return authResponse;
-					}
-				}
-
-				return new Response(
-					pasteViewPage({
-						domain: env.DOMAIN,
-						githubRepoUrl: env.GH_REPO_URL,
-						title: metadata?.title,
-						createdAt: metadata?.createdAt,
-						expirationSeconds: metadata?.expirationSeconds,
-						paste,
-					}),
-					{
-						headers: { 'content-type': 'text/html;charset=UTF-8' },
-					}
-				);
-			} else {
-				return new Response('Not Found.', { status: 404 });
-			}
+			return await handleViewPaste(
+				request,
+				env,
+				url,
+				authResponse,
+			)
 		}
 
 		return new Response('Not Found.', { status: 404 });
