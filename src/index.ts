@@ -1,7 +1,7 @@
 import requireAuth from './requireAuth';
-import indexHtml from '../static/index.html';
-import pasteHtml from '../static/paste.html';
 import createPaste, { validateExpiration, validateVisibility, validateCustomKey, ValidationError } from './createPaste';
+import newPastePage from './pages/newPaste';
+import pasteViewPage from './pages/pasteView';
 
 export default {
 	async fetch(request, env): Promise<Response> {
@@ -14,9 +14,15 @@ export default {
 					return authResponse;
 				}
 
-				return new Response(indexHtml.replaceAll('{{DOMAIN}}', env.DOMAIN).replaceAll('{{GH_REPO_URL}}', env.GH_REPO_URL), {
-					headers: { 'content-type': 'text/html;charset=UTF-8' },
-				});
+				return new Response(
+					newPastePage({
+						domain: env.DOMAIN,
+						githubRepoUrl: env.GH_REPO_URL,
+					}),
+					{
+						headers: { 'content-type': 'text/html;charset=UTF-8' },
+					}
+				);
 
 			case '/new':
 				if (authResponse) {
@@ -59,12 +65,13 @@ export default {
 				}
 
 				return new Response(
-					pasteHtml
-						.replaceAll('{{DOMAIN}}', env.DOMAIN)
-						.replaceAll('{{GH_REPO_URL}}', env.GH_REPO_URL)
-						.replaceAll('{{TITLE}}', metadata?.title || 'Untitled Paste')
-						.replaceAll('{{CREATED_ISO}}', metadata?.createdAt || new Date().toISOString())
-						.replaceAll('{{PASTE_CONTENT}}', paste),
+					pasteViewPage({
+						domain: env.DOMAIN,
+						githubRepoUrl: env.GH_REPO_URL,
+						title: metadata?.title,
+						createdAt: metadata?.createdAt,
+						paste,
+					}),
 					{
 						headers: { 'content-type': 'text/html;charset=UTF-8' },
 					}
