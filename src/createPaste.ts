@@ -72,6 +72,14 @@ export const validateCustomKey = (customKey: string | null): string | null => {
 	return customKey;
 };
 
+export type Metadata = {
+	visibility?: Visibility;
+	title?: string | null;
+	createdAt?: string;
+	createdBy?: string;
+	expirationSeconds?: number;
+};
+
 const isKeyAlreadyInUse = async (env: Env, key: string) => {
 	const existingPaste = await env.PASTE_KV.get(key);
 	return existingPaste !== null;
@@ -101,8 +109,9 @@ const createPaste = async ({
 	}
 
 	const expirationSeconds = expirationToSeconds(expiration);
+	const metadata: Metadata = { visibility, title, createdAt: new Date().toISOString(), createdBy: authCheck.username, expirationSeconds };
 	await env.PASTE_KV.put(key, content, {
-		metadata: { visibility, title, createdAt: new Date().toISOString(), createdBy: authCheck.username, expirationSeconds },
+		metadata,
 		expirationTtl: expirationSeconds,
 	});
 
