@@ -5,6 +5,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<title>{{TITLE}} - Paste</title>
 		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.cyan.min.css" />
+		{{EXTRA_HEAD_CONTENT}}
 		<style>
 			footer {
 				text-align: center;
@@ -32,7 +33,7 @@
 				</hgroup>
 			</header>
 
-			<pre><code class="paste-content">{{PASTE_CONTENT}}</code></pre>
+			<pre><code class="paste-content {{PRISM_CLASSNAME}}">{{PASTE_CONTENT}}</code></pre>
 
 			<div class="grid">
 				<button onclick="navigator.clipboard.writeText(window.location.href)">Copy Link</button>
