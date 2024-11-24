@@ -6,12 +6,12 @@ import handleViewPaste  from './handleViewPaste';
 export default {
 	async fetch(request, env): Promise<Response> {
 		const url = new URL(request.url);
-		const authResponse = requireAuth(request, env);
+		const authCheck = requireAuth(request, env);
 
 		switch (url.pathname) {
 			case '/':
-				if (authResponse) {
-					return authResponse;
+				if (!authCheck.isAuthorized) {
+					return authCheck.response;
 				}
 
 				return new Response(
@@ -25,8 +25,8 @@ export default {
 				);
 
 			case '/new':
-				if (authResponse) {
-					return authResponse;
+				if (!authCheck.isAuthorized) {
+					return authCheck.response;
 				}
 
 				const formData = await request.formData();
@@ -38,6 +38,7 @@ export default {
 						expiration: validateExpiration(formData.get('expiration') as string),
 						title: formData.get('title') as string | null,
 						customKey: validateCustomKey(formData.get('custom-url') as string | null),
+						authCheck,
 					});
 					return Response.redirect(env.BASE_URL + 'p/' + pasteId, 303);
 				} catch (e: unknown) {
@@ -59,7 +60,7 @@ export default {
 				request,
 				env,
 				url,
-				authResponse,
+				authCheck,
 			)
 		}
 

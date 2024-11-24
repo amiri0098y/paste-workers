@@ -1,10 +1,11 @@
 import pasteViewPage from './pages/pasteView';
+import type { AuthResult } from './requireAuth';
 
 export default async function handleViewPaste(
   request: Request,
   env: Env,
   url: URL,
-  authResponse: Response | null
+  authCheck: AuthResult
 ): Promise<Response> {
   // We already checked that it starts with /p/
   const pathParts = url.pathname.substring(3).split('/');
@@ -19,8 +20,8 @@ export default async function handleViewPaste(
 
   // Check auth for private pastes
   if (metadata?.visibility !== 'public') {
-    if (authResponse) {
-      return authResponse;
+    if (!authCheck.isAuthorized) {
+      return authCheck.response;
     }
   }
 
@@ -39,7 +40,9 @@ export default async function handleViewPaste(
           githubRepoUrl: env.GH_REPO_URL,
           title: metadata?.title,
           createdAt: metadata?.createdAt,
+          createdBy: metadata?.createdBy,
           expirationSeconds: metadata?.expirationSeconds,
+          visibility: metadata?.visibility === 'public' ? 'public' : 'authorized',
           paste,
         }), {
           headers: { 'content-type': 'text/html;charset=UTF-8' }

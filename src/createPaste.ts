@@ -1,4 +1,6 @@
-type Visibility = 'public' | 'authorized';
+import { AuthenticatedResult } from './requireAuth';
+
+export type Visibility = 'public' | 'authorized';
 type Expiration = 'never' | '10m' | '1h' | '1d' | '1w' | '1m' | '6m' | '1y';
 
 const expirationToSeconds = (expiration: Expiration) => {
@@ -82,6 +84,7 @@ const createPaste = async ({
 	expiration,
 	title,
 	customKey,
+	authCheck,
 }: {
 	env: Env;
 	content: string;
@@ -89,6 +92,7 @@ const createPaste = async ({
 	expiration: Expiration;
 	title: string | null;
 	customKey: string | null;
+	authCheck: AuthenticatedResult;
 }) => {
 	const key = customKey || generateKey();
 	const isKeyInUse = await isKeyAlreadyInUse(env, key);
@@ -98,7 +102,7 @@ const createPaste = async ({
 
 	const expirationSeconds = expirationToSeconds(expiration);
 	await env.PASTE_KV.put(key, content, {
-		metadata: { visibility, title, createdAt: new Date().toISOString(), expirationSeconds },
+		metadata: { visibility, title, createdAt: new Date().toISOString(), createdBy: authCheck.username, expirationSeconds },
 		expirationTtl: expirationSeconds,
 	});
 

@@ -3,8 +3,7 @@
 interface Env {
 	PASTE_KV: KVNamespace;
 	GH_REPO_URL: "https://github.com/brendanv/paste-workers";
-	AUTH_USER: string;
-	AUTH_PASS: string;
+	AUTH_USERS: string;
 	BASE_URL: string;
 	DOMAIN: string;
 }

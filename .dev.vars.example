@@ -1,5 +1,4 @@
 # Override for local testing
-AUTH_USER=user
-AUTH_PASS=pass
+AUTH_USERS={"user":"pass"}
 BASE_URL=https://mytestsite.com/
 DOMAIN="mytestsite.com"
