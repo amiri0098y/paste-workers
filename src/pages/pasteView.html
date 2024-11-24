@@ -4,26 +4,17 @@
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<title>{{TITLE}} - Paste</title>
-		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/picocss/1.5.10/pico.min.css" />
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.cyan.min.css" />
 		<style>
 			footer {
 				text-align: center;
 				margin-top: 2rem;
 				padding: 1rem;
-				border-top: 1px solid var(--muted-border-color);
+				border-top: 1px solid var(--pico-muted-border-color);
 			}
 			.metadata {
-				color: var(--muted-color);
-				font-size: 0.875em;
+				color: var(--pico-muted-color);
 				margin-bottom: 2rem;
-			}
-			.paste-content {
-				background: var(--code-background-color);
-				padding: 1rem;
-				border-radius: 0.5rem;
-				overflow-x: auto;
-				white-space: pre;
-				font-family: monospace;
 			}
 		</style>
 	</head>
@@ -37,11 +28,11 @@
 				</nav>
 				<hgroup>
 					<h1>{{TITLE}}</h1>
-					<div class="metadata">{{METADATA_ITEMS}} <br />Visibility: {{PRIVACY}}</div>
+					<small class="metadata">{{METADATA_ITEMS}} <br />Visibility: {{PRIVACY}}</small>
 				</hgroup>
 			</header>
 
-			<pre class="paste-content">{{PASTE_CONTENT}}</pre>
+			<pre><code class="paste-content">{{PASTE_CONTENT}}</code></pre>
 
 			<div class="grid">
 				<button onclick="navigator.clipboard.writeText(window.location.href)">Copy Link</button>

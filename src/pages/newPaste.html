@@ -4,22 +4,20 @@
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<title>Pastes</title>
-		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/picocss/1.5.10/pico.min.css" />
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.cyan.min.css" />
 		<style>
 			footer {
 				text-align: center;
 				margin-top: 2rem;
 				padding: 1rem;
-				border-top: 1px solid var(--muted-border-color);
+				border-top: 1px solid var(--pico-muted-border-color);
 			}
 			.help-text {
-				color: var(--muted-color);
-				font-size: 0.875em;
-				margin-top: 0.25rem;
+				color: var(--pico-muted-color);
 			}
 			.url-prefix {
-				color: var(--muted-color);
-				font-family: monospace;
+				color: var(--pico-muted-color);
+				font-family: var(--pico-font-family-monospace);
 			}
 		</style>
 	</head>
@@ -28,21 +26,31 @@
 			<header>
 				<hgroup>
 					<h1>Create a Paste</h1>
-					<h2>{{DOMAIN}}</h2>
+					<p class="secondary">{{DOMAIN}}</p>
 				</hgroup>
 			</header>
 
-			<form action="/new" method="post">
-				<label for="paste_content">Code or Text</label>
-				<textarea id="paste_content" name="paste_content" rows="12" placeholder="Paste your code here..." required aria-required="true"></textarea>
+			<form method="post" action="/new">
+				<label for="paste_content">
+					Code or Text
+					<textarea
+						id="paste_content"
+						name="paste_content"
+						rows="12"
+						placeholder="Paste your code here..."
+						required
+						aria-required="true"
+					></textarea>
+				</label>
 
 				<div class="grid">
-					<div>
-						<label for="title">Title (optional)</label>
+					<label for="title">
+						Title (optional)
 						<input type="text" id="title" name="title" placeholder="Enter a title for your paste" />
-					</div>
-					<div>
-						<label for="expiration">Expiration</label>
+					</label>
+
+					<label for="expiration">
+						Expiration
 						<select id="expiration" name="expiration">
 							<option value="never">Never</option>
 							<option value="10m">10 Minutes</option>
@@ -53,17 +61,20 @@
 							<option value="6m">6 Months</option>
 							<option value="1y">1 Year</option>
 						</select>
-					</div>
+					</label>
+
 					<div>
-						<label for="visibility">Visibility</label>
-						<select id="visibility" name="visibility">
-							<option value="public">Public</option>
-							<option value="authorized">Authorized Users Only</option>
-						</select>
-						<p class="help-text">
+						<label for="visibility">
+							Visibility
+							<select id="visibility" name="visibility">
+								<option value="public">Public</option>
+								<option value="authorized">Authorized Users Only</option>
+							</select>
+						</label>
+						<small class="help-text">
 							Public: Anyone can view this paste<br />
 							Authorized Users Only: Only logged-in users can view this paste
-						</p>
+						</small>
 					</div>
 				</div>
 
@@ -71,7 +82,7 @@
 					<label for="custom-url">Custom URL (optional)</label>
 					<div class="grid">
 						<div>
-							<span class="url-prefix">{{DOMAIN}}/</span>
+							<small class="url-prefix">{{DOMAIN}}/</small>
 							<input
 								type="text"
 								id="custom-url"
@@ -92,7 +103,7 @@
 		</main>
 
 		<footer>
-			<small>
+			<small class="secondary">
 				Open source on <a href="{{GH_REPO_URL}}" target="_blank">GitHub</a> • Made with
 				<a href="https://picocss.com">Pico CSS</a>
 			</small>
