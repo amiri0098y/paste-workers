@@ -1,6 +1,7 @@
 import pasteViewPage from './pages/pasteView';
 import type { AuthResult } from './requireAuth';
 import type { Metadata } from './createPaste';
+import notFoundPage from './pages/notFound';
 
 export default async function handleViewPaste(request: Request, env: Env, url: URL, authCheck: AuthResult): Promise<Response> {
 	// We already checked that it starts with /p/
@@ -9,9 +10,17 @@ export default async function handleViewPaste(request: Request, env: Env, url: U
 	const format = pathParts[1];
 
 	const { value: paste, metadata } = await env.PASTE_KV.getWithMetadata<Metadata>(pasteId);
+	const domain = env.DOMAIN;
+	const githubRepoUrl = env.GH_REPO_URL;
 
 	if (!paste) {
-		return new Response('Not Found.', { status: 404 });
+		return new Response(
+			 notFoundPage({githubRepoUrl}),
+				{
+					status: 404,
+					headers: { 'content-type': 'text/html;charset=UTF-8' },
+				}
+		)
 	}
 
 	// Check auth for private pastes
@@ -21,8 +30,6 @@ export default async function handleViewPaste(request: Request, env: Env, url: U
 		}
 	}
 
-	const domain = env.DOMAIN;
-	const githubRepoUrl = env.GH_REPO_URL;
 	const title = metadata?.title || null;
 	const createdAt = metadata?.createdAt || null;
 	const createdBy = metadata?.createdBy || null;
