@@ -22,5 +22,5 @@ BASE_URL = "https://paste.brendanviscomi.com/" # Expect trailing slash
 
 # Docs: https://developers.cloudflare.com/workers/wrangler/configuration/#kv-namespaces
 [[kv_namespaces]]
-binding = "PASTE_KV"
-id = "65b45c7b60c54cf09c38010ac2b683cc"
+binding = "Amir"
+id = "fb0065bc9708401aa39679019ad4393c"
