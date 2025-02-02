@@ -1,7 +1,7 @@
 #:schema node_modules/wrangler/config-schema.json
 name = "paste-workers"
 main = "src/index.ts"
-compatibility_date = "2024-11-12"
+compatibility_date = "2025-11-12"
 compatibility_flags = ["nodejs_compat"]
 
 # Workers Logs
@@ -16,9 +16,9 @@ enabled = true
 # Note: Use secrets to store sensitive data.
 # - https://developers.cloudflare.com/workers/configuration/secrets/
 [vars]
-GH_REPO_URL = "https://github.com/brendanv/paste-workers"
-DOMAIN = "paste.brendanviscomi.com" # No trailing slash
-BASE_URL = "https://paste.brendanviscomi.com/" # Expect trailing slash
+GH_REPO_URL = "https://github.com/amiri0098y/paste-workers"
+DOMAIN = "paste-workers.watdabu.workers.dev" # No trailing slash
+BASE_URL = "https://paste-workers.watdabu.workers.dev" # Expect trailing slash
 
 # Docs: https://developers.cloudflare.com/workers/wrangler/configuration/#kv-namespaces
 [[kv_namespaces]]
